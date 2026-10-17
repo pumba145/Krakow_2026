@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Náš romantický výlet – Krakov 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #f8f1e3;
+      --gold: #c9a227;
+      --soft-pink: #e8c4c4;
+      --blush: #d4a5a5;
+      --warm-brown: #5c4033;
+      --autumn-green: #6b7c5e;
+      --text: #3d2b1f;
+      --shadow: rgba(92, 64, 51, 0.15);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(232,196,196,0.28) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 90%, rgba(201,162,39,0.14) 0%, transparent 45%),
+        linear-gradient(180deg, #f5ebe0 0%, #f8f1e3 45%, #f0e6d4 100%);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+    }
+    .page { max-width: 900px; margin: 0 auto; padding: 36px 20px 90px; }
+    .progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--gold), var(--blush));
+      z-index: 110; transition: width 0.08s linear;
+    }
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(248,241,227,0.93);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(201,162,39,0.22);
+      box-shadow: 0 2px 18px var(--shadow);
+      transform: translateY(-105%);
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .nav.visible { transform: translateY(0); }
+    .nav-inner {
+      max-width: 900px; margin: 0 auto; padding: 9px 14px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .nav-inner::-webkit-scrollbar { display: none; }
+    .nav-brand { font-family: 'Great Vibes', cursive; font-size: 1.2rem; color: var(--blush); white-space: nowrap; flex-shrink: 0; }
+    .nav-links { display: flex; gap: 2px; list-style: none; }
+    .nav-links a {
+      display: block; padding: 5px 11px; font-size: 0.82rem; letter-spacing: 0.05em;
+      text-transform: uppercase; text-decoration: none; color: var(--warm-brown);
+      border-radius: 18px; transition: background 0.25s; white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-links a.active { background: rgba(201,162,39,0.2); }
+    .music-btn {
+      background: none; border: 1px solid rgba(201,162,39,0.4); border-radius: 50%;
+      width: 34px; height: 34px; cursor: pointer; font-size: 0.95rem;
+      display: flex; align-items: center; justify-content: center; color: var(--gold);
+      transition: all 0.3s; flex-shrink: 0;
+    }
+    .music-btn:hover { background: rgba(201,162,39,0.15); }
+    .music-btn.playing { background: rgba(201,162,39,0.28); animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201,162,39,0.4); }
+      50% { box-shadow: 0 0 0 7px rgba(201,162,39,0); }
+    }
+    .timeline {
+      position: fixed; right: 16px; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 12px; z-index: 50;
+    }
+    .timeline a {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: rgba(201,162,39,0.25); border: 2px solid var(--gold);
+      transition: all 0.3s; display: block;
+    }
+    .timeline a:hover, .timeline a.active {
+      background: var(--gold); transform: scale(1.4);
+      box-shadow: 0 0 8px rgba(201,162,39,0.45);
+    }
+    @media (max-width: 1050px) { .timeline { display: none; } }
+    .flourish {
+      text-align: center; color: var(--gold); font-size: 1.3rem;
+      letter-spacing: 0.35em; margin: 10px 0; opacity: 0.65;
+    }
+    .hero {
+      text-align: center; padding: 64px 28px 48px;
+      background: linear-gradient(145deg, rgba(248,241,227,0.97), rgba(240,230,212,0.98));
+      border: 1px solid rgba(201,162,39,0.22); border-radius: 4px;
+      box-shadow: 0 4px 22px var(--shadow), inset 0 0 50px rgba(232,196,196,0.12);
+      position: relative; margin-bottom: 48px;
+      opacity: 0; transform: translateY(28px);
+      animation: fadeUp 0.9s ease forwards 0.15s;
+    }
+    .hero::before, .hero::after {
+      content: "❧"; position: absolute; color: var(--gold); font-size: 1.5rem; opacity: 0.45;
+    }
+    .hero::before { top: 16px; left: 20px; }
+    .hero::after { bottom: 16px; right: 20px; transform: rotate(180deg); }
+    .hero h1 {
+      font-family: 'Playfair Display', serif; font-weight: 600;
+      font-size: clamp(2rem, 5vw, 3rem); color: var(--warm-brown);
+      letter-spacing: 0.015em; margin-bottom: 6px; line-height: 1.25;
+    }
+    .hero .subtitle {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(1.45rem, 3.4vw, 2rem); color: var(--blush); margin-bottom: 14px;
+    }
+    .hero .dates {
+      font-size: 1.1rem; color: var(--autumn-green);
+      letter-spacing: 0.07em; text-transform: uppercase; font-weight: 500;
+    }
+    .hero .intro {
+      max-width: 480px; margin: 24px auto 0; font-size: 1.22rem; font-style: italic; opacity: 0.9;
+    }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .section {
+      margin-bottom: 48px; background: var(--cream);
+      border: 1px solid rgba(201,162,39,0.18); border-radius: 3px;
+      box-shadow: 0 5px 22px var(--shadow); overflow: hidden;
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .section.visible { opacity: 1; transform: translateY(0); }
+    .section-header {
+      padding: 20px 24px 10px; text-align: center;
+      border-bottom: 1px dashed rgba(201,162,39,0.32);
+    }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.6rem;
+      font-weight: 600; color: var(--warm-brown); margin-bottom: 3px;
+    }
+    .section-header .day-label {
+      font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold); font-weight: 500;
+    }
+    .section-body { padding: 20px 22px 28px; }
+    .section-body .lead {
+      text-align: center; font-style: italic; font-size: 1.12rem;
+      max-width: 520px; margin: 0 auto 14px; opacity: 0.92;
+    }
+    .photo-frame {
+      background: #fff; padding: 10px 10px 32px;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.11), 0 1px 3px rgba(0,0,0,0.06);
+      transform: rotate(-1deg); margin: 16px auto; max-width: 100%;
+      position: relative; transition: transform 0.35s ease, box-shadow 0.35s ease;
+      cursor: zoom-in;
+    }
+    .photo-frame:nth-child(even) { transform: rotate(0.9deg); }
+    .photo-frame:hover {
+      transform: rotate(0deg) scale(1.025);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.16); z-index: 2;
+    }
+    .photo-frame img {
+      width: 100%; height: auto; display: block; object-fit: cover;
+      max-height: 400px; background: #eee;
+    }
+    .photo-frame .caption {
+      position: absolute; bottom: 8px; left: 0; right: 0; text-align: center;
+      font-family: 'Great Vibes', cursive; font-size: 1.12rem;
+      color: var(--warm-brown); opacity: 0.88;
+    }
+    .photo-frame .zoom-hint {
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(248,241,227,0.88); border-radius: 50%;
+      width: 30px; height: 30px; display: flex; align-items: center;
+      justify-content: center; font-size: 0.85rem; opacity: 0;
+      transition: opacity 0.25s; pointer-events: none;
+    }
+    .photo-frame:hover .zoom-hint { opacity: 1; }
+    .tape {
+      position: absolute; width: 64px; height: 20px;
+      background: rgba(232,212,139,0.55); transform: rotate(-7deg);
+      top: -7px; left: 50%; margin-left: -32px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 3;
+    }
+    .photo-grid { display: grid; grid-template-columns: 1fr; gap: 22px; margin-top: 6px; }
+    @media (min-width: 620px) {
+      .photo-grid.two { grid-template-columns: 1fr 1fr; }
+      .photo-grid.two .photo-frame.wide {
+        grid-column: 1 / -1; max-width: 82%; margin-left: auto; margin-right: auto;
+      }
+    }
+    .closing {
+      text-align: center; padding: 46px 26px;
+      background: linear-gradient(160deg, rgba(248,241,227,0.98), rgba(232,196,196,0.18));
+      border: 1px solid rgba(201,162,39,0.28); border-radius: 4px;
+      box-shadow: 0 6px 26px var(--shadow); position: relative;
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .closing.visible { opacity: 1; transform: translateY(0); }
+    .closing::before {
+      content: "✦"; position: absolute; top: 14px; left: 50%;
+      transform: translateX(-50%); color: var(--gold); font-size: 1rem; opacity: 0.55;
+    }
+    .closing .message {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 3vw, 1.7rem); font-style: italic;
+      color: var(--warm-brown); max-width: 460px; margin: 18px auto 32px; line-height: 1.45;
+    }
+    .photo-placeholder {
+      width: 200px; height: 200px; margin: 0 auto;
+      background: linear-gradient(145deg, #f5ebe0, #ebe0d0);
+      border: 7px solid #fff;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12), inset 0 0 28px rgba(232,196,196,0.18);
+      display: flex; align-items: center; justify-content: center;
+      transform: rotate(-2deg); position: relative; cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .photo-placeholder:hover {
+      transform: rotate(0deg) scale(1.05);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.16);
+    }
+    .photo-placeholder::before {
+      content: ""; position: absolute; inset: 11px;
+      border: 1px dashed rgba(201,162,39,0.4);
+    }
+    .photo-placeholder span {
+      font-family: 'Great Vibes', cursive; font-size: 1.35rem; color: var(--blush); z-index: 1;
+    }
+    .hearts {
+      margin-top: 24px; color: var(--soft-pink); font-size: 1.25rem;
+      letter-spacing: 0.28em; cursor: pointer; user-select: none; transition: transform 0.2s;
+    }
+    .hearts:hover { transform: scale(1.12); }
+    footer {
+      text-align: center; padding: 28px 16px 8px;
+      font-size: 0.92rem; color: var(--autumn-green); opacity: 0.7;
+    }
+    .lightbox {
+      position: fixed; inset: 0; background: rgba(35,22,12,0.9); z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; cursor: zoom-out;
+    }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox-content {
+      max-width: 92vw; max-height: 90vh; position: relative;
+      transform: scale(0.94); transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    .lightbox.open .lightbox-content { transform: scale(1); }
+    .lightbox-content img {
+      max-width: 100%; max-height: 80vh; border-radius: 3px;
+      box-shadow: 0 18px 55px rgba(0,0,0,0.5); display: block; margin: 0 auto;
+    }
+    .lightbox-caption {
+      text-align: center; color: #f8f1e3; font-family: 'Great Vibes', cursive;
+      font-size: 1.4rem; margin-top: 12px; text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+    .lightbox-close {
+      position: absolute; top: -38px; right: 0; background: none; border: none;
+      color: #f8f1e3; font-size: 1.9rem; cursor: pointer; opacity: 0.8; line-height: 1;
+    }
+    .lightbox-close:hover { opacity: 1; }
+    .lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(248,241,227,0.12); border: none; color: #f8f1e3;
+      font-size: 1.9rem; width: 44px; height: 44px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .lightbox-nav:hover { background: rgba(248,241,227,0.28); }
+    .lightbox-prev { left: -54px; }
+    .lightbox-next { right: -54px; }
+    @media (max-width: 680px) {
+      .lightbox-prev { left: 6px; }
+      .lightbox-next { right: 6px; }
+      .lightbox-close { top: -34px; right: 6px; }
+    }
+    .floating-heart {
+      position: fixed; pointer-events: none; z-index: 3000;
+      font-size: 1.3rem; color: var(--blush);
+      animation: floatUp 2.4s ease-out forwards;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1) rotate(0); opacity: 0.9; }
+      100% { transform: translateY(-110px) scale(0.35) rotate(18deg); opacity: 0; }
+    }
+
+    .nameday-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px auto 4px;
+      padding: 8px 18px;
+      background: linear-gradient(135deg, rgba(232,196,196,0.45), rgba(201,162,39,0.18));
+      border: 1px solid rgba(201,162,39,0.35);
+      border-radius: 24px;
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.35rem;
+      color: var(--warm-brown);
+      box-shadow: 0 2px 10px rgba(92,64,51,0.08);
+    }
+    .nameday-badge .star {
+      color: var(--gold);
+      font-size: 1rem;
+      font-family: serif;
+    }
+
+
+    .music-player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 22px auto 0;
+      padding: 10px 18px;
+      max-width: 320px;
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(201,162,39,0.3);
+      border-radius: 30px;
+      box-shadow: 0 2px 12px rgba(92,64,51,0.08);
+      cursor: pointer;
+      transition: background 0.25s, box-shadow 0.25s;
+      user-select: none;
+    }
+    .music-player:hover {
+      background: rgba(255,255,255,0.75);
+      box-shadow: 0 4px 16px rgba(92,64,51,0.12);
+    }
+    .music-player.playing {
+      background: linear-gradient(135deg, rgba(232,196,196,0.4), rgba(201,162,39,0.15));
+      border-color: rgba(201,162,39,0.45);
+    }
+    .music-player .play-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(201,162,39,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      color: var(--warm-brown);
+      flex-shrink: 0;
+      transition: background 0.25s;
+    }
+    .music-player.playing .play-icon {
+      background: rgba(201,162,39,0.35);
+      animation: pulse 2s infinite;
+    }
+    .music-player .track-info {
+      text-align: left;
+      line-height: 1.3;
+    }
+    .music-player .track-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--warm-brown);
+    }
+    .music-player .track-sub {
+      font-size: 0.78rem;
+      color: var(--autumn-green);
+      letter-spacing: 0.04em;
+    }
+
+
+    /* Skrytý YouTube – len zvuk, bez videa */
+    .yt-wrap {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      opacity: 0;
+      pointer-events: none;
+      left: -9999px;
+    }
+    .yt-wrap iframe {
+      width: 1px;
+      height: 1px;
+      border: 0;
+    }
+
+    @media (max-width: 600px) {
+      .page { padding: 20px 12px 70px; }
+      .hero { padding: 44px 16px 36px; }
+      .section-body { padding: 16px 14px 22px; }
+      .photo-frame { padding: 8px 8px 28px; }
+      .nav-brand { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progress"></div>
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <span class="nav-brand">Krakov 2026</span>
+      <ul class="nav-links">
+        <li><a href="#hero" data-section="hero">Úvod</a></li>
+        <li><a href="#ubytovanie" data-section="ubytovanie">Bývanie</a></li>
+        <li><a href="#den1" data-section="den1">29.10.</a></li>
+        <li><a href="#den2" data-section="den2">30.10.</a></li>
+        <li><a href="#den3" data-section="den3">31.10.</a></li>
+        <li><a href="#den4" data-section="den4">1.11.</a></li>
+        <li><a href="#zaver" data-section="zaver">Záver</a></li>
+      </ul>
+      <button class="music-btn" id="musicBtn" title="Hudba" aria-label="Hudba">♪</button>
+    </div>
+  </nav>
+  <div class="timeline" id="timeline">
+    <a href="#hero" data-section="hero" title="Úvod"></a>
+    <a href="#ubytovanie" data-section="ubytovanie" title="Bývanie"></a>
+    <a href="#den1" data-section="den1" title="29.10."></a>
+    <a href="#den2" data-section="den2" title="30.10."></a>
+    <a href="#den3" data-section="den3" title="31.10."></a>
+    <a href="#den4" data-section="den4" title="1.11."></a>
+    <a href="#zaver" data-section="zaver" title="Záver"></a>
+  </div>
+  <div class="page">
+    <header class="hero" id="hero">
+      <div class="flourish">· · ·</div>
+      <h1>Náš romantický výlet<br>– Krakov 2026</h1>
+      <p class="subtitle">Simonka &amp; ja</p>
+      <p class="dates">29. október – 1. november</p>
+      <p class="intro">Štyri dni len my dvaja.<br>Krakov, láska a spoločné spomienky.</p>
+      <div class="music-player" id="musicPlayer" title="Prehrať našu pesničku">
+        <div class="play-icon" id="playIcon">▶</div>
+        <div class="track-info">
+          <div class="track-title">Klangkarussell – Home</div>
+          <div class="track-sub">pre Simonku · len zvuk</div>
+        </div>
+      </div>
+      <audio id="bgMusic" preload="metadata" playsinline>
+        <source src="Klangkarussell%20-%20Home.mp3" type="audio/mpeg">
+        <source src="home.mp3" type="audio/mpeg">
+      </audio>
+      <div class="flourish">· · ·</div>
+    </header>
+
+    <section class="section" id="ubytovanie">
+      <div class="section-header">
+        <h2>Kde bývame</h2>
+        <p class="day-label">Zakrzówek Residence</p>
+      </div>
+      <div class="section-body">
+        <p class="lead">Pokojné útočisko pri tyrkysovej vode a bielych skalách. Ráno vítajú jesenné stromy a ticho jazera.</p>
+        <div class="photo-frame" data-full="https://upload.wikimedia.org/wikipedia/commons/9/90/ZalewZakrz%C3%B3wek-WidokOdZachodu-Zakrz%C3%B3wek-POL%2C_Krak%C3%B3w.jpg" data-caption="Zalew Zakrzówek">
+          <div class="tape"></div>
+          <span class="zoom-hint">🔍</span>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/90/ZalewZakrz%C3%B3wek-WidokOdZachodu-Zakrz%C3%B3wek-POL%2C_Krak%C3%B3w.jpg" alt="Zalew Zakrzówek v Krakove" loading="lazy">
+          <span class="caption">Zalew Zakrzówek</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="den1">
+      <div class="section-header">
+        <p class="day-label">29. október</p>
+        <h2>Príchod &amp; Zakrzówek</h2>
+      </div>
+      <div class="section-body">
+        <p class="lead">Prvé kroky v Krakove. Pokojná voda, zlaté listy a skaly, ktoré strážia naše prvé spoločné hodiny.</p>
+        <div class="photo-frame" data-full="https://upload.wikimedia.org/wikipedia/commons/e/ec/Lake_Zakrz%C3%B3wek%2C_Krak%C3%B3w%2C_Poland.jpg" data-caption="Jazero Zakrzówek">
+          <div class="tape"></div>
+          <span class="zoom-hint">🔍</span>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Lake_Zakrz%C3%B3wek%2C_Krak%C3%B3w%2C_Poland.jpg" alt="Jazero Zakrzówek, Kraków" loading="lazy">
+          <span class="caption">Jazero Zakrzówek &amp; Skałki Twardowskiego</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="den2">
+      <div class="section-header">
+        <p class="day-label">30. október</p>
+        <h2>Staré mesto &amp; Wawel</h2>
+        <div class="nameday-badge"><span class="star">✦</span> Simonkine meniny <span class="star">✦</span></div>
+      </div>
+      <div class="section-body">
+        <p class="lead">Dnes sú Simonkine meniny. Rynek Główny, Sukiennice, Bazylika Mariacka… a Wawel z nábrežia Visly. Deň plný histórie, lásky a tepla tvojich očí.</p>
+        <div class="photo-grid two">
+          <div class="photo-frame wide" data-full="https://upload.wikimedia.org/wikipedia/commons/0/0c/Rynek_G%C5%82%C3%B3wny_and_the_Sukiennice_building_in_Krakow_%288125487288%29.jpg" data-caption="Rynek Główny &amp; Sukiennice">
+            <div class="tape"></div>
+            <span class="zoom-hint">🔍</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Rynek_G%C5%82%C3%B3wny_and_the_Sukiennice_building_in_Krakow_%288125487288%29.jpg" alt="Rynek Główny a Sukiennice" loading="lazy">
+            <span class="caption">Rynek Główny &amp; Sukiennice</span>
+          </div>
+          <div class="photo-frame" data-full="https://upload.wikimedia.org/wikipedia/commons/6/6f/Krakow_-_Wawel_from_Vistula_-_4.jpg" data-caption="Wawel nad Vislou">
+            <span class="zoom-hint">🔍</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Krakow_-_Wawel_from_Vistula_-_4.jpg" alt="Wawel z Visly" loading="lazy">
+            <span class="caption">Wawel nad Vislou</span>
+          </div>
+          <div class="photo-frame" data-full="https://upload.wikimedia.org/wikipedia/commons/7/70/Ko%C5%9Bci%C3%B3%C5%82_Mariacki_w_Krakowie.jpg" data-caption="Bazylika Mariacka">
+            <span class="zoom-hint">🔍</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Ko%C5%9Bci%C3%B3%C5%82_Mariacki_w_Krakowie.jpg" alt="Bazylika Mariacka" loading="lazy">
+            <span class="caption">Bazylika Mariacka</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="den3">
+      <div class="section-header">
+        <p class="day-label">31. október</p>
+        <h2>Wieliczka &amp; Kazimierz</h2>
+      </div>
+      <div class="section-body">
+        <p class="lead">Soľné lustre a sochy 101 metrov pod zemou. Potom uličky Kazimierza – miesta, kde sa história mieša s dneškom.</p>
+        <div class="photo-grid two">
+          <div class="photo-frame wide" data-full="https://upload.wikimedia.org/wikipedia/commons/1/1b/Saint_Kinga_Chapel_in_Wieliczka_Salt_Mine.jpg" data-caption="Kaplnka sv. Kingy">
+            <div class="tape"></div>
+            <span class="zoom-hint">🔍</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1b/Saint_Kinga_Chapel_in_Wieliczka_Salt_Mine.jpg" alt="Kaplnka sv. Kingy, Wieliczka" loading="lazy">
+            <span class="caption">Kaplnka sv. Kingy · Wieliczka</span>
+          </div>
+          <div class="photo-frame" data-full="https://upload.wikimedia.org/wikipedia/commons/c/c1/Szeroka_street%2C_Eastern_frontage%2C_Kazimierz%2C_Krak%C3%B3w%2C_Poland.jpg" data-caption="Ulica Szeroka, Kazimierz">
+            <span class="zoom-hint">🔍</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Szeroka_street%2C_Eastern_frontage%2C_Kazimierz%2C_Krak%C3%B3w%2C_Poland.jpg" alt="Ulica Szeroka, Kazimierz" loading="lazy">
+            <span class="caption">Ulica Szeroka · Kazimierz</span>
+          </div>
+          <div class="photo-frame" data-full="https://upload.wikimedia.org/wikipedia/commons/b/ba/Krak%C3%B3w%2C_Okr%C4%85glak_-_fotopolska.eu_%28253407%29.jpg" data-caption="Plac Nowy · Okrąglak">
+            <span class="zoom-hint">🔍</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Krak%C3%B3w%2C_Okr%C4%85glak_-_fotopolska.eu_%28253407%29.jpg" alt="Plac Nowy s Okrąglakom" loading="lazy">
+            <span class="caption">Plac Nowy · Okrąglak</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="den4">
+      <div class="section-header">
+        <p class="day-label">1. november</p>
+        <h2>Pokojný záver</h2>
+      </div>
+      <div class="section-body">
+        <p class="lead">Posledné ráno. Planty, jesenné lístie a tichý výhľad na mesto, ktoré sme na chvíľu mali len pre seba.</p>
+        <div class="photo-frame" data-full="https://upload.wikimedia.org/wikipedia/commons/c/c0/Planty_Garden%2C_autumn%2C_Old_Town%2C_Krak%C3%B3w%2C_Poland.jpg" data-caption="Planty · jeseň">
+          <div class="tape"></div>
+          <span class="zoom-hint">🔍</span>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Planty_Garden%2C_autumn%2C_Old_Town%2C_Krak%C3%B3w%2C_Poland.jpg" alt="Planty jeseň Kraków" loading="lazy">
+          <span class="caption">Planty · posledné chvíle</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing" id="zaver">
+      <p class="message">Simonka, ďakujem,<br>že so mnou zdieľaš tieto chvíle.</p>
+      <div class="photo-placeholder" id="ourPhoto" title="Klikni pre srdiečka"><span>Naša fotka</span></div>
+      <div class="hearts" id="heartsBtn">♡ · ♡ · ♡</div>
+    </section>
+    <footer>Krakov · jeseň 2026 · s láskou</footer>
+  </div>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lbClose" aria-label="Zavrieť">×</button>
+      <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Predchádzajúca">‹</button>
+      <img src="" alt="" id="lbImg">
+      <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Nasledujúca">›</button>
+      <p class="lightbox-caption" id="lbCaption"></p>
+    </div>
+  </div>
+  <!-- Audio: Klangkarussell - Home.mp3 -->
+  <script>
+    const progress=document.getElementById('progress'),nav=document.getElementById('nav');
+    const sections=document.querySelectorAll('.section,.closing,.hero');
+    const navLinks=document.querySelectorAll('[data-section]'),timelineLinks=document.querySelectorAll('.timeline a');
+    function updateProgress(){const s=window.scrollY,h=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(h>0?(s/h)*100:0)+'%';nav.classList.toggle('visible',s>100);}
+    const observer=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');const id=e.target.id;if(id){navLinks.forEach(a=>a.classList.toggle('active',a.dataset.section===id));timelineLinks.forEach(a=>a.classList.toggle('active',a.dataset.section===id));}}});},{threshold:0.22,rootMargin:'-8% 0px -18% 0px'});
+    sections.forEach(s=>observer.observe(s));window.addEventListener('scroll',updateProgress,{passive:true});updateProgress();
+    const lightbox=document.getElementById('lightbox'),lbImg=document.getElementById('lbImg'),lbCaption=document.getElementById('lbCaption');
+    const frames=Array.from(document.querySelectorAll('.photo-frame[data-full]'));let currentIndex=0;
+    function openLightbox(i){currentIndex=i;const f=frames[i];lbImg.src=f.dataset.full;lbImg.alt=f.querySelector('img').alt;lbCaption.innerHTML=f.dataset.caption||'';lightbox.classList.add('open');document.body.style.overflow='hidden';}
+    function closeLightbox(){lightbox.classList.remove('open');document.body.style.overflow='';}
+    function showNext(d){currentIndex=(currentIndex+d+frames.length)%frames.length;openLightbox(currentIndex);}
+    frames.forEach((f,i)=>f.addEventListener('click',()=>openLightbox(i)));
+    document.getElementById('lbClose').addEventListener('click',e=>{e.stopPropagation();closeLightbox();});
+    document.getElementById('lbPrev').addEventListener('click',e=>{e.stopPropagation();showNext(-1);});
+    document.getElementById('lbNext').addEventListener('click',e=>{e.stopPropagation();showNext(1);});
+    lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox();});
+    document.addEventListener('keydown',e=>{if(!lightbox.classList.contains('open'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowLeft')showNext(-1);if(e.key==='ArrowRight')showNext(1);});
+    function spawnHearts(x,y,c=7){const s=['♡','♥','💕','✨'];for(let i=0;i<c;i++){const el=document.createElement('span');el.className='floating-heart';el.textContent=s[Math.floor(Math.random()*s.length)];el.style.left=(x+(Math.random()-0.5)*55)+'px';el.style.top=(y+(Math.random()-0.5)*18)+'px';el.style.fontSize=(1.1+Math.random()*0.7)+'rem';el.style.animationDuration=(2+Math.random())+'s';document.body.appendChild(el);setTimeout(()=>el.remove(),2600);}}
+    document.getElementById('heartsBtn').addEventListener('click',e=>spawnHearts(e.clientX,e.clientY,8));
+    document.getElementById('ourPhoto').addEventListener('click',e=>{const r=e.currentTarget.getBoundingClientRect();spawnHearts(r.left+r.width/2,r.top+r.height/2,10);});
+    const musicBtn=document.getElementById('musicBtn');
+    const musicPlayer=document.getElementById('musicPlayer'),playIcon=document.getElementById('playIcon');
+    const bgMusic=document.getElementById('bgMusic');
+    let isPlaying=false;
+    function toggleMusic(){
+      if(!bgMusic) return;
+      if(isPlaying){
+        bgMusic.pause();
+        musicBtn.classList.remove('playing');
+        musicBtn.textContent='♪';
+        if(musicPlayer) musicPlayer.classList.remove('playing');
+        if(playIcon) playIcon.textContent='▶';
+      } else {
+        bgMusic.volume=0.7;
+        bgMusic.play().catch(function(){});
+        musicBtn.classList.add('playing');
+        musicBtn.textContent='♫';
+        if(musicPlayer) musicPlayer.classList.add('playing');
+        if(playIcon) playIcon.textContent='❚❚';
+      }
+      isPlaying=!isPlaying;
+    }
+    if(bgMusic){
+      bgMusic.addEventListener('ended',function(){
+        isPlaying=false;
+        musicBtn.classList.remove('playing');
+        musicBtn.textContent='♪';
+        if(musicPlayer) musicPlayer.classList.remove('playing');
+        if(playIcon) playIcon.textContent='▶';
+      });
+    }
+    musicBtn.addEventListener('click',toggleMusic);
+    if(musicPlayer) musicPlayer.addEventListener('click',toggleMusic);
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)window.scrollTo({top:t.getBoundingClientRect().top+window.scrollY-55,behavior:'smooth'});});});
+  </script>
+</body>
+</html>
